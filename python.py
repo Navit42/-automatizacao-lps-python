@@ -10,6 +10,9 @@ from selenium.webdriver.support import expected_conditions as EC
 import pyautogui, pyperclip,unicodedata,sys
 import os
 
+
+
+
 #variaveis e definições gerais
 driver = webdriver.Chrome()
 driver.get('https://app.greatpages.com.br/login')
@@ -25,28 +28,37 @@ month_dict = {'01': 'Janeiro', '02': 'Fevereiro', '03': 'Março', '04': 'Abril',
 
 
 
-data = ""
-with open(f"C:/Users/{os.getlogin()}/Desktop/data.csv", "r",encoding='utf-8') as f:
+
+
+
+
+cidades = []
+links = []
+data = []
+modelo = []
+
+login = ""
+
+with open(f"C:/Users/{os.getlogin()}/Desktop/data.csv", "r", encoding='utf-8') as f:
     data = [line.strip() for line in f]
 
-cidades = ""
-modelo = ""
-links = ""
+    for line in data:
+        info = line.split(',')
+        dado = info[0]+','+info[1]
 
-for line in data:
-    cidade = line[0]+","+line[1]
-    modelo = line[2]
-    links = line[3]
+        cidades.append(dado)
+        modelo.append(2)
+        modelo.append(3)
 
 
-#with open("C:/Users/Polozi/Desktop/lista.txt", "r", encoding='utf-8') as f:
+
+
+#with open(f"C:/Users/{os.getlogin()}/Desktop/lista.txt", "r", encoding='utf-8') as f:
 #    cidades = [line.strip() for line in f]
 
-#links = ""
-#with open("C:/Users/Polozi/Desktop/links.txt", "r") as f:
+#with open(f"C:/Users/{os.getlogin()}/Desktop/links.txt", "r") as f:
 #    links = [line.strip() for line in f]
 
-login = ''
 with open(f"C:/Users/{os.getlogin()}/Desktop/login.txt", "r") as f:
     login = [line.strip() for line in f]
 
@@ -327,9 +339,16 @@ def page_exit():
 
 
 
+
+
+
+
+
+
 formated_values = format_values(f"C:/Users/{os.getlogin()}/Desktop/lista.txt")
 Login(login[0],login[1])
 count = 0
+
 for cidade in cidades:
     page_copy() 
     data = page_renamer(cidade)   
