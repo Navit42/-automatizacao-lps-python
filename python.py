@@ -8,6 +8,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pyautogui, pyperclip,unicodedata,sys
+import os
+
+
+
 
 #variaveis e definições gerais
 driver = webdriver.Chrome()
@@ -22,16 +26,40 @@ driver.maximize_window()
 month_dict = {'01': 'Janeiro', '02': 'Fevereiro', '03': 'Março', '04': 'Abril', '05': 'Maio', '06': 'Junho', 
                   '07': 'Julho', '08': 'Agosto', '09': 'Setembro', '10': 'Outubro', '11': 'Novembro', '12': 'Dezembro'}
 
-cidades = ""
-with open("C:/Users/Polozi/Desktop/lista.txt", "r", encoding='utf-8') as f:
-    cidades = [line.strip() for line in f]
 
-links = ""
-with open("C:/Users/Polozi/Desktop/links.txt", "r") as f:
-    links = [line.strip() for line in f]
 
-login = ''
-with open("C:/Users/Polozi/Desktop/login.txt", "r") as f:
+
+
+
+
+cidades = []
+links = []
+data = []
+modelo = []
+
+login = ""
+
+with open(f"C:/Users/{os.getlogin()}/Desktop/data.csv", "r", encoding='utf-8') as f:
+    data = [line.strip() for line in f]
+
+    for line in data:
+        info = line.split(',')
+        dado = info[0]+','+info[1]
+
+        cidades.append(dado)
+        modelo.append(2)
+        modelo.append(3)
+
+
+
+
+#with open(f"C:/Users/{os.getlogin()}/Desktop/lista.txt", "r", encoding='utf-8') as f:
+#    cidades = [line.strip() for line in f]
+
+#with open(f"C:/Users/{os.getlogin()}/Desktop/links.txt", "r") as f:
+#    links = [line.strip() for line in f]
+
+with open(f"C:/Users/{os.getlogin()}/Desktop/login.txt", "r") as f:
     login = [line.strip() for line in f]
 
 global count
@@ -311,9 +339,16 @@ def page_exit():
 
 
 
-formated_values = format_values("C:/Users/Polozi/Desktop/lista.txt")
+
+
+
+
+
+
+formated_values = format_values(f"C:/Users/{os.getlogin()}/Desktop/lista.txt")
 Login(login[0],login[1])
 count = 0
+
 for cidade in cidades:
     page_copy() 
     data = page_renamer(cidade)   
