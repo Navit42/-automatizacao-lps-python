@@ -26,12 +26,6 @@ driver.maximize_window()
 month_dict = {'01': 'Janeiro', '02': 'Fevereiro', '03': 'Março', '04': 'Abril', '05': 'Maio', '06': 'Junho', 
                   '07': 'Julho', '08': 'Agosto', '09': 'Setembro', '10': 'Outubro', '11': 'Novembro', '12': 'Dezembro'}
 
-
-
-
-
-
-
 cidades = []
 links = []
 data = []
@@ -48,23 +42,10 @@ with open(f"C:/Users/{os.getlogin()}/Desktop/data.csv", "r", encoding='utf-8') a
 
         cidades.append(dado)
         modelo.append(2)
-        modelo.append(3)
-
-
-
-
-#with open(f"C:/Users/{os.getlogin()}/Desktop/lista.txt", "r", encoding='utf-8') as f:
-#    cidades = [line.strip() for line in f]
-
-#with open(f"C:/Users/{os.getlogin()}/Desktop/links.txt", "r") as f:
-#    links = [line.strip() for line in f]
+        links.append(3)
 
 with open(f"C:/Users/{os.getlogin()}/Desktop/login.txt", "r") as f:
     login = [line.strip() for line in f]
-
-global count
-modelo = 1
-
 
 #função que faz login no site
 
@@ -121,16 +102,16 @@ def timed_action_click(by, path, timer):
         
 
 #copia a pagina modelo variando automaticamente
-def page_copy():
-    global modelo
-    match modelo:
-        case 1:
-            timed_action_click(By.XPATH, "//*[@id='221123']/td[4]/div/div", 1)
-            modelo = 2
+def page_copy(model):
+    match model:
+        case 1: 
+            timed_action_click(By.XPATH, "//*[@id='184996']/td[4]/div/div", 1)
         case 2:
-
+            timed_action_click(By.XPATH, "//*[@id='221123']/td[4]/div/div", 1)
+        case 3:
             timed_action_click(By.XPATH, "//*[@id='221124']/td[4]/div/div", 1)
-            modelo = 1
+        case 4:
+            timed_action_click(By.XPATH, "//*[@id='185000']/td[4]/div/div", 1)
        
     
     action_click(By.XPATH, "//*[@id='dropdown_1']/ul/li[3]")
@@ -143,8 +124,7 @@ def page_copy():
     
     action_click(By.XPATH, "//*[contains(text(), 'PALESTRA ABERTA - Cópia')]")
     
-def page_renamer(cidade):
-    global modelo
+def page_renamer(cidade, model):
     try:
         city, date = cidade.split(",")
     except:
@@ -158,17 +138,12 @@ def page_renamer(cidade):
               EC.element_to_be_clickable((By.XPATH, '//*[@id="titulo"]')))
         nameinput.clear()
 
-    
-
-        if(modelo == 1):
-            numero = 3
-        else:
-            numero = 2
 
 
-        print(f"[{month_dict[month][0:3].upper()}/{year}] [M{numero}] [{city.upper()}] PALESTRA ABERTA - AUTO")
+        print(f"[{month_dict[month][0:3].upper()}/{year}] [M{model}] [{city.upper()}] PALESTRA ABERTA - AUTO")
 
-        nameinput.send_keys(f"[{month_dict[month][0:3].upper()}/{year}] [M{numero}] [{city.upper()}] PALESTRA ABERTA - AUTO")
+        nameinput.send_keys(f"[{month_dict[month][0:3].upper()}/{year}] [M{model}] [{city.upper()}] PALESTRA ABERTA - AUTO")
+        sleep(999)
         action_click(By.XPATH, '//*[@id="enviar_formulario_ajax"]')
     except:
         pass
@@ -322,9 +297,6 @@ def edit_form(dados):
 
 
 
-
-
-
 def page_exit():
     action_click(By.XPATH, '/html/body/div[3]/div[2]/div[2]/div/div[1]/div[1]/div[4]/div[2]/div')
     action_click(By.XPATH, "/html/body/div[3]/div[1]/div/a")
@@ -337,25 +309,16 @@ def page_exit():
         timed_action_click(By.XPATH, "/html/body/div[3]/div[2]/div[1]/div[1]/a", 15)
 
 
-
-
-
-
-
-
-
-
 formated_values = format_values(f"C:/Users/{os.getlogin()}/Desktop/lista.txt")
 Login(login[0],login[1])
 count = 0
 
 for cidade in cidades:
-    page_copy() 
-    data = page_renamer(cidade)   
+    #page_copy(modelo[count]) 
+    data = page_renamer(cidade, modelo[count])   
+    sleep(999)
     editar_pagina(formated_values[count])
     editar_links(links[count])
     #edit_form(data)
     page_exit()
     count += 1
-
-
