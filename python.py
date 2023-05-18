@@ -41,8 +41,9 @@ with open(f"C:/Users/{os.getlogin()}/Desktop/data.csv", "r", encoding='utf-8') a
         dado = info[0]+','+info[1]
 
         cidades.append(dado)
-        modelo.append(2)
-        links.append(3)
+        modelo.append(info[2])
+        links.append(info[3])
+        print(info[0]+"     /     "+info[1]+"     /     "+info[2]+"     /     "+"     /     "+info[3])
 
 with open(f"C:/Users/{os.getlogin()}/Desktop/login.txt", "r") as f:
     login = [line.strip() for line in f]
@@ -314,11 +315,11 @@ Login(login[0],login[1])
 count = 0
 
 for cidade in cidades:
-    #page_copy(modelo[count]) 
+    page_copy(modelo[count]) 
     data = page_renamer(cidade, modelo[count])   
     sleep(999)
     editar_pagina(formated_values[count])
     editar_links(links[count])
-    #edit_form(data)
+    edit_form(data)
     page_exit()
     count += 1
